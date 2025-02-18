@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "4140312789",
+    "project_id": "agustin-dca6b",
+    "storage_bucket": "agustin-dca6b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:4140312789:android:ab6da1f45e1bd2016e9a5c",
+        "android_client_info": {
+          "package_name": "com.example.exemple_firebase"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDAWP0Yhljnho4w871kTV6SumYaKXRnMPw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

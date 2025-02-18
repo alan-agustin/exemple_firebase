@@ -1,3 +1,4 @@
+import 'package:exemple_firebase/auth/servei_auth.dart';
 import 'package:exemple_firebase/components/boto.dart';
 import 'package:exemple_firebase/components/textofiel.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +7,8 @@ class PaginaRegistre extends StatelessWidget {
   const PaginaRegistre({super.key});
 
   void hacerRegistro(){
-    print("registramdo");
+    final ServeiAuth serveiAuth = ServeiAuth();
+    serveiAuth.registreAmbEmailIPassword("1@email1.com", "123456");
   }
 
   @override

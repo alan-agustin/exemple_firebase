@@ -1,7 +1,14 @@
+import 'package:exemple_firebase/firebase_options.dart';
 import 'package:exemple_firebase/pagines/pagina_registre.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+void main() async {
+
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MainApp());
 }
 
@@ -44,4 +51,13 @@ class MainApp extends StatelessWidget {
     -Flutter pub global activate flutterfire_cli
     -dart pub global activate flutterfire_cli
       -flutterfire configure.
+
+       Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+
+
+       instalem les dependencies de firebase que vulguem utilitzar:
+
+       -flutter pub add firebase_core
+       -flutter pub add firebase_auth
+       (amb això marxen els errors de firebase_options.dart)
 */

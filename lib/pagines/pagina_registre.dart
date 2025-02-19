@@ -2,13 +2,40 @@ import 'package:exemple_firebase/auth/servei_auth.dart';
 import 'package:exemple_firebase/components/boto.dart';
 import 'package:exemple_firebase/components/textofiel.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 class PaginaRegistre extends StatelessWidget {
   const PaginaRegistre({super.key});
 
-  void hacerRegistro(){
-    final ServeiAuth serveiAuth = ServeiAuth();
-    serveiAuth.registreAmbEmailIPassword("1@email1.com", "123456");
+  void hacerRegistro(BuildContext context, String email, String password, String confPassword) async {
+
+    if(email.isEmpty) {
+      //Gestio del cas
+      return;
+    }
+
+
+    if(password.isEmpty) {
+      //Gestio del cas
+      return;
+    }
+
+    if(password != confPassword){
+      //Gestio del cas
+      return;
+    }
+
+    try{
+      final ServeiAuth serveiAuth = ServeiAuth();
+    serveiAuth.registreAmbEmailIPassword(email, password);
+    }catch (e){
+      showDialog(context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("Error"),
+        content: Text(e.toString()),
+      ),
+      );
+    }
   }
 
   @override
@@ -79,7 +106,7 @@ class PaginaRegistre extends StatelessWidget {
                 // Botó registrat.
                 Boto(
                   text: "Registrarse", 
-                  onTap: hacerRegistro),
+                  onTap: () => hacerRegistro(context, tecEmail.text, tectConfPassw.text, tecPassw.text)),
                   
                 Boto(text: "Logout", onTap: (){}),
               ],

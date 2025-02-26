@@ -2,36 +2,17 @@ import 'package:exemple_firebase/auth/servei_auth.dart';
 import 'package:exemple_firebase/components/boto.dart';
 import 'package:exemple_firebase/components/textofiel.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
-class PaginaRegistre extends StatelessWidget {
+class PaginLogin extends StatelessWidget {
 
   final Function()? ferClic;
-  const PaginaRegistre({super.key, required this.ferClic});
+  const PaginLogin({super.key, required this.ferClic});
 
-  void hacerRegistro(BuildContext context, String email, String password, String confPassword) async {
+  void ferLogin(BuildContext context, String email, String password) async {
 
-    if(email.isEmpty) {
-      //Gestio del cas
-      return;
-    }
-
-
-    if(password.isEmpty) {
-      //Gestio del cas
-      return;
-    }
-
-    if(password != confPassword){
-      //Gestio del cas
-      return;
-    }
-
- 
-    String? error = await ServeiAuth().registreAmbEmailIPassword(email, password);
+    String? error = await ServeiAuth().loginAmbEmailIPassword(email, password);
 
     if (error != null) {
-
       showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -41,14 +22,17 @@ class PaginaRegistre extends StatelessWidget {
         content: Text(error),
       ),
       );
+    } else {
+      print("Login fet.");
     }
   }
 
   @override
   Widget build(BuildContext context) {
+
     final TextEditingController tecEmail = TextEditingController();
     final TextEditingController tecPassw = TextEditingController();
-    final TextEditingController tectConfPassw = TextEditingController();
+
     return  Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -64,7 +48,7 @@ class PaginaRegistre extends StatelessWidget {
             
                 const SizedBox(height: 25,),
                 //Frase.
-                const Text("Crea un compte nou",
+                const Text("Benvingut de nou",
                 style: TextStyle(
                   color: Colors.blue,
                   fontSize: 18,
@@ -80,7 +64,7 @@ class PaginaRegistre extends StatelessWidget {
                     Expanded(child: Divider(thickness: 5, color: Colors.black,)),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 4),
-                      child: Text("Registre",
+                      child: Text("Login",
                       style: TextStyle(
                         color: Colors.blue
                       ),),
@@ -93,33 +77,32 @@ class PaginaRegistre extends StatelessWidget {
                 Textofiel(controller: tecEmail, hint: "Correu", obscureText: false),
                 // Textfield password.
                 Textofiel(controller: tecPassw, hint: "Contrasenya", obscureText: true),
-                // Textfield confirmar password.
-                Textofiel(controller:tectConfPassw 
-                , hint: "Confirmar contrasenya", obscureText: true),
                 // No estas registrat.
                  Padding(
                   padding: const EdgeInsets.only(right: 25),
                   child:  Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      const Text("Ja ets membre?"),
+                      const Text("Encara no ets membre?"),
                       const SizedBox(width: 5,),
                       GestureDetector(
-                        onTap:ferClic ,
-                        child: Text("Inicia sessió"))
+                        onTap: ferClic,
+                        child: Text("Registra 't"))
                     ],
                   ),
                 ),
                 SizedBox(height: 10,),
                 // Botó registrat.
                 Boto(
-                  text: "Registrarse", 
-                  onTap: () => hacerRegistro(context, tecEmail.text, tectConfPassw.text, tecPassw.text)),
+                  text: "Fes login", 
+                  onTap: () => ferLogin(context, tecEmail.text, tecPassw.text)),
               ],
             ),
           ),
         ),
       ),
-    );
+    );;
   }
+  
+  
 }

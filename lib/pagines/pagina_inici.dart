@@ -1,60 +1,76 @@
 import 'package:exemple_firebase/auth/servei_auth.dart';
 import 'package:exemple_firebase/chat/servei_chat.dart';
 import 'package:exemple_firebase/components/item_usuari.dart';
+import 'package:exemple_firebase/pagines/pagina_chat.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-class PaginaInici extends StatefulWidget {
-  const PaginaInici({super.key});
+class PaginaInicio extends StatefulWidget {
+  const PaginaInicio({super.key});
 
   @override
-  State<PaginaInici> createState() => _PaginaIniciState();
+  State<PaginaInicio> createState() => _PaginaInicioState();
 }
 
-class _PaginaIniciState extends State<PaginaInici> {
+class _PaginaInicioState extends State<PaginaInicio> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.grey,
-        title: const Text("Pagina incici"),
+        backgroundColor: Colors.yellow,
+        title: Text(
+          ServeiAuth().getUsuariActual()!.email!,
+        ),
         actions: [
           IconButton(
             onPressed: () {
               ServeiAuth().ferLogout();
             },
-            icon: const Icon(
-              Icons.logout,
-            ),
+            icon: Icon(Icons.logout),
           )
         ],
       ),
       body: StreamBuilder(
-        stream: ServeiChat().getUsuaris(),
-        builder: (context, snapshot){
-
-          // Cas que hi hagi un error.
-
-          if(snapshot.hasError) {
-           return const Text("Error en el snapshot");
+        stream: ServeiChat().getUsarios(),
+        builder: (context, snapshot) {
+          //si hay un error
+          if (snapshot.hasError) {
+            return const Center(
+              child: Text("Error en la snapshot"),
+            );
           }
 
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Text("Carregant dades");
+            return Text("Cargando datos...");
           }
 
-          // Es retornen les dades.
+          //Devuelvo los datos
           return ListView(
-            children: snapshot.data!.map<Widget>(
-              (dadesUsuari) => _construeixItemUsuari(dadesUsuari)
-            ).toList(),
+            children: snapshot.data!
+                .map<Widget>(
+                  (dadesUsari) => _construirItemUsario(dadesUsari, context),
+                )
+                .toList(),
           );
         },
       ),
     );
   }
 
-  Widget _construeixItemUsuari(Map<String, dynamic> dadesUsuari){
-
-    return ItemUsuari(emailUsuari: dadesUsuari["email"]);
+  Widget _construirItemUsario(Map<String, dynamic> dadesUsari, BuildContext context) {
+    if (dadesUsari["email"] == ServeiAuth().getUsuariActual()!.email) {
+      return Container();
+    }
+    return ItemUsari(
+      emailUsario: dadesUsari["email"],
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => PaginaChat(idReceptor: dadesUsari["uid"],),
+          ),
+        );
+      },
+    );
   }
 }

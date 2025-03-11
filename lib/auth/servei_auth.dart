@@ -5,6 +5,15 @@ class ServeiAuth {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
+
+  // Usuari actual.
+
+  User? getUsuariActual(){
+
+    return _auth.currentUser;
+  }
+
+  
   //Fer logout.
   Future<void> ferLogout() async {
     return await _auth.signOut();
@@ -66,4 +75,6 @@ class ServeiAuth {
           return "Error $e";
         }
   }
+
+  void hacerLogout() {}
 }
